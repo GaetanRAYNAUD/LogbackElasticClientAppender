@@ -2,6 +2,5 @@
 
 ## TODO list
 - Complete README with all settings
+- Add example logback.xml
 - Add some tests
-- Test other all authentication methods
-- Test with a pipeline
