@@ -22,9 +22,7 @@ Support custom properties with Logback layouts.
 Add the dependency to your project
 
 Maven:
-
 ```xml
-
 <dependency>
     <groupId>fr.graynaud</groupId>
     <artifactId>logback-elastic-client-appender</artifactId>
@@ -33,15 +31,12 @@ Maven:
 ```
 
 Gradle:
-
 ```
 implementation 'fr.graynaud:logback-elastic-client-appender:0.1.0'
 ```
 
 Add the new appender to your Logback configuration
-
 ```xml
-
 <appender name="ELASTIC" class="fr.graynaud.logbackelasticclientappender.ElasticClientLoggingAppender">
     <url>https://your-elasticsearch-cluster</url>
     <dataStreamName>logs</dataStreamName>
@@ -93,9 +88,9 @@ The list of available settings is as follow
 | dataStreamName      | Name of the data stream in which event are send                                                                                    | string                                                                                                                                                                                 | true     | logs                                                                                                  |          
 | createIndexTemplate | Define if an index template should be create at startup if does not already exists                                                 | boolean                                                                                                                                                                                | true     | false                                                                                                 |          
 | indexTemplateName   | Name of the index template to create                                                                                               | string                                                                                                                                                                                 | false    | ecla-template                                                                                         |          
-| indexTemplate       | Details of the body for the template creation request                                                                              | string                                                                                                                                                                                 | false    | [template.json](template.json)                                                                        |          
+| indexTemplate       | Details of the body for the template creation request                                                                              | string                                                                                                                                                                                 | false    | [template.json](doc/template.json)                                                                    |          
 | lifeCycleName       | Name of the life cycle to create associated to the template                                                                        | string                                                                                                                                                                                 | false    | ecla-lifecycle                                                                                        |          
-| lifeCycle           | Details of the body for the life cycle creation request                                                                            | string                                                                                                                                                                                 | false    | [lifecycle.json](lifecycle.json)                                                                      |          
+| lifeCycle           | Details of the body for the life cycle creation request                                                                            | string                                                                                                                                                                                 | false    | [lifecycle.json](doc/lifecycle.json)                                                                  |          
 | hostname            | Name of the machine send with every event                                                                                          | string                                                                                                                                                                                 | false    | Name of the machine base on OS environment variable<br/>Windows : COMPUTERNAME <br> Others : HOSTNAME |          
 | pipeline            | Pipeline to execute when sending events                                                                                            | string                                                                                                                                                                                 | false    | none                                                                                                  |          
 | connectTimeout      | Connection timeout in ms                                                                                                           | integer                                                                                                                                                                                | true     | 30000                                                                                                 |          

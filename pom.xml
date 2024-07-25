@@ -20,6 +20,20 @@
     </license>
   </licenses>
 
+  <developers>
+    <developer>
+      <name>Gaétan RAYNAUD</name>
+      <url>https://github.com/GaetanRAYNAUD</url>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/GaetanRAYNAUD/LogbackElasticClientAppender.git</connection>
+    <developerConnection>scm:git:ssh://github.com:GaetanRAYNAUD/LogbackElasticClientAppender.git</developerConnection>
+    <url>https://github.com/GaetanRAYNAUD/LogbackElasticClientAppender/tree/master</url>
+    <tag>HEAD</tag>
+  </scm>
+
   <properties>
     <maven.compiler.release>11</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
