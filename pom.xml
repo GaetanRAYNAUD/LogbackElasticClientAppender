@@ -8,6 +8,17 @@
   <packaging>jar</packaging>
 
   <name>Logback Elastic Client Appender</name>
+  <description>Java library to send Logback events to Elasticsearch directly without other server.</description>
+
+  <url>https://github.com/GaetanRAYNAUD/LogbackElasticClientAppender/</url>
+
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://opensource.org/licenses/MIT</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
 
   <properties>
     <maven.compiler.release>11</maven.compiler.release>
