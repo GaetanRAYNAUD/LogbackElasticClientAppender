@@ -30,8 +30,8 @@ import org.elasticsearch.client.RestClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -191,36 +191,40 @@ public class ElasticClientLoggingAppender extends UnsynchronizedAppenderBase<ILo
         } catch (ElasticsearchException e) {
             try {
                 if (404 == e.response().status()) {
-                    PutLifecycleResponse response = ilmClient.putLifecycle(
-                            b -> b.withJson(new StringReader(this.settings.getLifeCycle())).name(this.settings.getLifeCycleName()));
+                    try (InputStream stream = ElasticClientLoggingAppender.class.getResourceAsStream(this.settings.getLifeCycleLocation())) {
+                        PutLifecycleResponse response = ilmClient.putLifecycle(b -> b.withJson(stream).name(this.settings.getLifeCycleName()));
 
-                    if (response.acknowledged()) {
-                        addInfo("Created lifecycle for http trace");
-                    } else {
-                        addError("Could not create lifecycle " + this.settings.getLifeCycle() + " for ECLA");
+                        if (response.acknowledged()) {
+                            addInfo("Created lifecycle for http trace");
+                        } else {
+                            addError("Could not create lifecycle " + this.settings.getLifeCycleName() + " for ECLA");
+                        }
                     }
+
                 } else {
-                    addError("Could not create lifecycle " + this.settings.getLifeCycle() + " for ECLA because: " + e.getMessage(), e);
+                    addError("Could not create lifecycle " + this.settings.getLifeCycleName() + " for ECLA because: " + e.getMessage(), e);
                 }
             } catch (Exception e1) {
-                addError("Could not create lifecycle " + this.settings.getLifeCycle() + " for ECLA because: " + e1.getMessage(), e1);
+                addError("Could not create lifecycle " + this.settings.getLifeCycleName() + " for ECLA because: " + e1.getMessage(), e1);
             }
         } catch (Exception e) {
-            addError("Could not create lifecycle " + this.settings.getLifeCycle() + " for ECLA because: " + e.getMessage(), e);
+            addError("Could not create lifecycle " + this.settings.getLifeCycleName() + " for ECLA because: " + e.getMessage(), e);
         }
 
         try {
             if (!this.client.indices().existsIndexTemplate(b -> b.name(this.settings.getIndexTemplateName())).get().value()) {
-                CompletableFuture<PutIndexTemplateResponse> response = this.client.indices()
-                                                                                  .putIndexTemplate(
-                                                                                          b -> b.withJson(new StringReader(this.settings.getIndexTemplate()))
-                                                                                                .name(this.settings.getIndexTemplateName())
-                                                                                                .indexPatterns(this.settings.getDataStreamName() + "*"));
+                try (InputStream stream = ElasticClientLoggingAppender.class.getResourceAsStream(this.settings.getIndexTemplateLocation())) {
+                    CompletableFuture<PutIndexTemplateResponse> response = this.client.indices()
+                                                                                      .putIndexTemplate(
+                                                                                              b -> b.withJson(stream)
+                                                                                                    .name(this.settings.getIndexTemplateName())
+                                                                                                    .indexPatterns(this.settings.getDataStreamName() + "*"));
 
-                if (response.get().acknowledged()) {
-                    addInfo("Created index template " + this.settings.getIndexTemplateName() + " for ECLA");
-                } else {
-                    addError("Could not create index template " + this.settings.getIndexTemplateName() + " for ECLA");
+                    if (response.get().acknowledged()) {
+                        addInfo("Created index template " + this.settings.getIndexTemplateName() + " for ECLA");
+                    } else {
+                        addError("Could not create index template " + this.settings.getIndexTemplateName() + " for ECLA");
+                    }
                 }
             }
         } catch (Exception e) {

@@ -12,11 +12,11 @@ public class ECLASettings {
 
     private String indexTemplateName = "ecla-template";
 
-    private String indexTemplate = "{\"_meta\":{\"description\":\"ECLA template\",\"ecs_version\":\"8.11.0\"},\"data_stream\":{},\"template\":{\"mappings\":{\"date_detection\":false,\"dynamic_templates\":[{\"strings_as_keyword\":{\"mapping\":{\"ignore_above\":1024,\"type\":\"keyword\"},\"match_mapping_type\":\"string\"}}],\"properties\":{\"@timestamp\":{\"type\":\"date\",\"format\":\"epoch_millis\"},\"ecs\":{\"properties\":{\"version\":{\"ignore_above\":1024,\"type\":\"keyword\"}}},\"error\":{\"properties\":{\"message\":{\"type\":\"match_only_text\"},\"stack_trace\":{\"fields\":{\"text\":{\"type\":\"match_only_text\"}},\"type\":\"wildcard\"},\"type\":{\"ignore_above\":1024,\"type\":\"keyword\"}}},\"host\":{\"properties\":{\"hostname\":{\"ignore_above\":1024,\"type\":\"keyword\"}}},\"labels\":{\"type\":\"object\"},\"log\":{\"properties\":{\"level\":{\"ignore_above\":1024,\"type\":\"keyword\"},\"logger\":{\"ignore_above\":1024,\"type\":\"keyword\"}}},\"message\":{\"type\":\"match_only_text\"},\"process\":{\"properties\":{\"thread\":{\"properties\":{\"name\":{\"ignore_above\":1024,\"type\":\"keyword\"}}}}},\"span\":{\"properties\":{\"id\":{\"ignore_above\":1024,\"type\":\"keyword\"}}},\"tags\":{\"ignore_above\":1024,\"type\":\"keyword\"},\"trace\":{\"properties\":{\"id\":{\"ignore_above\":1024,\"type\":\"keyword\"}}},\"transaction\":{\"properties\":{\"id\":{\"ignore_above\":1024,\"type\":\"keyword\"}}}}},\"settings\":{\"index\":{\"codec\":\"best_compression\",\"mapping\":{\"total_fields\":{\"limit\":2000}}}}},\"priority\":1}";
+    private String indexTemplateLocation = "/fr/graynaud/logbackelasticclientappender/template.json";
 
     private String lifeCycleName = "ecla-lifecycle";
 
-    private String lifeCycle = "{\"policy\":{\"_meta\":{\"description\":\"ECLA lifecycle policy\"},\"phases\":{\"hot\":{\"actions\":{\"rollover\":{\"max_primary_shard_size\":\"10gb\",\"max_age\":\"3d\"},\"set_priority\":{\"priority\":50}}},\"warm\":{\"min_age\":\"30d\",\"actions\":{\"shrink\":{\"number_of_shards\":1},\"forcemerge\":{\"max_num_segments\":1},\"set_priority\":{\"priority\":25}}},\"delete\":{\"min_age\":\"365d\",\"actions\":{\"delete\":{}}}}}}";
+    private String lifeCycleLocation = "/fr/graynaud/logbackelasticclientappender/lifecycle.json";
 
     private ECLATags tags;
 
@@ -86,12 +86,12 @@ public class ECLASettings {
         this.indexTemplateName = indexTemplateName;
     }
 
-    public String getIndexTemplate() {
-        return indexTemplate;
+    public String getIndexTemplateLocation() {
+        return indexTemplateLocation;
     }
 
-    public void setIndexTemplate(String indexTemplate) {
-        this.indexTemplate = indexTemplate;
+    public void setIndexTemplateLocation(String indexTemplateLocation) {
+        this.indexTemplateLocation = indexTemplateLocation;
     }
 
     public String getLifeCycleName() {
@@ -102,12 +102,12 @@ public class ECLASettings {
         this.lifeCycleName = lifeCycleName;
     }
 
-    public String getLifeCycle() {
-        return lifeCycle;
+    public String getLifeCycleLocation() {
+        return lifeCycleLocation;
     }
 
-    public void setLifeCycle(String lifeCycle) {
-        this.lifeCycle = lifeCycle;
+    public void setLifeCycleLocation(String lifeCycleLocation) {
+        this.lifeCycleLocation = lifeCycleLocation;
     }
 
     public List<String> getTags() {
