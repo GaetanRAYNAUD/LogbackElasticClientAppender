@@ -79,6 +79,9 @@ Add the new appender to your Logback configuration
 </appender>
 ```
 
+## Requirements
+- Java 11 or greater
+
 ## Settings
 
 The list of available settings is as follow
