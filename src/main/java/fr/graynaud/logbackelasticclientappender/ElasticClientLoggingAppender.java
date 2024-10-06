@@ -13,6 +13,7 @@ import co.elastic.clients.elasticsearch.core.bulk.BulkResponseItem;
 import co.elastic.clients.elasticsearch.core.bulk.CreateOperation;
 import co.elastic.clients.elasticsearch.ilm.ElasticsearchIlmClient;
 import co.elastic.clients.elasticsearch.ilm.PutLifecycleResponse;
+import co.elastic.clients.elasticsearch.indices.CreateDataStreamResponse;
 import co.elastic.clients.elasticsearch.indices.PutIndexTemplateResponse;
 import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import co.elastic.clients.transport.ElasticsearchTransport;
@@ -80,7 +81,6 @@ public class ElasticClientLoggingAppender extends UnsynchronizedAppenderBase<ILo
         this.client = new ElasticsearchAsyncClient(transport);
 
         this.hostname = this.settings.getHostname();
-
         if (this.hostname == null) {
             if (System.getProperty("os.name").startsWith("Windows")) {
                 this.hostname = System.getenv("COMPUTERNAME");
@@ -107,6 +107,7 @@ public class ElasticClientLoggingAppender extends UnsynchronizedAppenderBase<ILo
             this.exPatternLayout.start();
         }
 
+        //Prepare ingester builder
         BulkListener<Void> listener = new BulkListener<>() {
             @Override
             public void beforeBulk(long executionId, BulkRequest request, List<Void> contexts) {
@@ -152,6 +153,32 @@ public class ElasticClientLoggingAppender extends UnsynchronizedAppenderBase<ILo
 
         if (this.settings.isCreateIndexTemplate()) {
             createIndexTemplate();
+        }
+
+        //Create datastream if not exists
+        try {
+            this.client.indices().getDataStream(b -> b.name(this.settings.getDataStreamName())).get();
+        } catch (ElasticsearchException e) {
+            try {
+                if (404 == e.response().status()) {
+                    CreateDataStreamResponse response = this.client.indices().createDataStream(b -> b.name(this.settings.getDataStreamName())).get();
+
+                    if (response.acknowledged()) {
+                        addInfo("Created datastream for " + this.settings.getDataStreamName());
+                    } else {
+                        addError("Could not create datastream for " + this.settings.getDataStreamName());
+                    }
+                } else {
+                    addError("Could not create datastream " + this.settings.getDataStreamName() + ": " + e.getMessage(), e);
+                    return;
+                }
+            } catch (Exception e1) {
+                addError("Could not create datastream " + this.settings.getDataStreamName() + ": " + e1.getMessage(), e1);
+                return;
+            }
+        } catch (Exception e1) {
+            addError("Could not create datastream  " + this.settings.getDataStreamName() + ": " + e1.getMessage(), e1);
+            return;
         }
 
         super.start();
