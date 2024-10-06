@@ -1,7 +1,6 @@
 # LogbackElasticClientAppender
 
 [![Release](https://img.shields.io/github/release/GaetanRAYNAUD/LogbackElasticClientAppender.svg)](https://github.com/zalando/logbook/releases)
-[![Maven Central](https://img.shields.io/maven-central/v/fr.graynaud/logback-elastic-client-appender.svg)](https://maven-badges.herokuapp.com/maven-central/org.zalando/logbook-parent)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 A library to send log to Elasticsearch directly from Logback. (No other server needed, your application send events
@@ -22,69 +21,75 @@ Support custom properties with Logback layouts.
 Add the dependency to your project
 
 Maven:
+
 ```xml
+
 <dependency>
-    <groupId>fr.graynaud</groupId>
-    <artifactId>logback-elastic-client-appender</artifactId>
-    <version>0.1.0</version>
+  <groupId>fr.graynaud</groupId>
+  <artifactId>logback-elastic-client-appender</artifactId>
+  <version>1.0.1</version>
 </dependency>
 ```
 
 Gradle:
+
 ```
 implementation 'fr.graynaud:logback-elastic-client-appender:0.1.0'
 ```
 
 Add the new appender to your Logback configuration
+
 ```xml
 
 <appender name="ELASTIC" class="fr.graynaud.logbackelasticclientappender.ElasticClientLoggingAppenderTest">
-    <url>https://your-elasticsearch-cluster</url>
-    <dataStreamName>logs</dataStreamName>
-    <createIndexTemplate>true</createIndexTemplate>
-    <indexTemplateName>ecla-template</indexTemplateName>
-    <lifeCycleName>ecla-lifecycle</lifeCycleName>
-    <connectTimeout>30000</connectTimeout>
-    <socketTimeout>30000</socketTimeout>
-    <flushCount>1000</flushCount>
-    <flushInterval>5000</flushInterval>
-    <addMDC>true</addMDC>
-    <exPattern>EX</exPattern>
-    <tags>
-        <tag>tag1</tag>
-        <tag>tag2</tag>
-    </tags>
-    <!-- Choose one the following -->
-    <authentication class="fr.graynaud.logbackelasticclientappender.authentication.BasicAuthentication">
-        <username>${USERNAME}</username>
-        <password>${PASSWORD}</password>
-    </authentication>
-    <authentication class="fr.graynaud.logbackelasticclientappender.authentication.ApiKeyAuthentication">
-        <apiKey>${API_KEY}</apiKey>
-    </authentication>
-    <customProperties>
-        <prop>
-            <name>first_property</name>
-            <value>static_value</value>
-        </prop>
-        <prop>
-            <name>second_property</name>
-            <value>${ENV_VAR}</value>
-        </prop>
-        <prop>
-            <name>third_property</name>
-            <value>%logback_var</value>
-        </prop>
-    </customProperties>
+  <url>https://your-elasticsearch-cluster</url>
+  <dataStreamName>logs</dataStreamName>
+  <createIndexTemplate>true</createIndexTemplate>
+  <indexTemplateName>ecla-template</indexTemplateName>
+  <lifeCycleName>ecla-lifecycle</lifeCycleName>
+  <connectTimeout>30000</connectTimeout>
+  <socketTimeout>30000</socketTimeout>
+  <flushCount>1000</flushCount>
+  <flushInterval>5000</flushInterval>
+  <addMDC>true</addMDC>
+  <exPattern>EX</exPattern>
+  <tags>
+    <tag>tag1</tag>
+    <tag>tag2</tag>
+  </tags>
+  <!-- Choose one the following -->
+  <authentication class="fr.graynaud.logbackelasticclientappender.authentication.BasicAuthentication">
+    <username>${USERNAME}</username>
+    <password>${PASSWORD}</password>
+  </authentication>
+  <authentication class="fr.graynaud.logbackelasticclientappender.authentication.ApiKeyAuthentication">
+    <apiKey>${API_KEY}</apiKey>
+  </authentication>
+  <customProperties>
+    <prop>
+      <name>first_property</name>
+      <value>static_value</value>
+    </prop>
+    <prop>
+      <name>second_property</name>
+      <value>${ENV_VAR}</value>
+    </prop>
+    <prop>
+      <name>third_property</name>
+      <value>%logback_var</value>
+    </prop>
+  </customProperties>
 </appender>
 ```
 
 ## Requirements
+
 - Java 11 or greater
+- Elasticsearch version 8 or greater
 
 ## Settings
 
-The list of available settings is as follow
+The list of available settings is as follows
 
 | name                  | description                                                                                                                        | type                                                                                                                                                                                   | required | default value                                                                                         |
 |-----------------------|------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|-------------------------------------------------------------------------------------------------------|
@@ -109,6 +114,3 @@ The list of available settings is as follow
 | exPattern             | Pattern of exception in the event                                                                                                  | [EX](https://logback.qos.ch/manual/layouts.html#ex) or [REX](https://logback.qos.ch/manual/layouts.html#rootException) or [XEX](https://logback.qos.ch/manual/layouts.html#xThrowable) | true     | EX                                                                                                    |          
 | tags                  | List of tags to add to every event                                                                                                 | list of string                                                                                                                                                                         | true     | none                                                                                                  |
 | authentication        | Type of authentication to connect to the cluster                                                                                   | Basic or ApiKey                                                                                                                                                                        | false    | none                                                                                                  |
-
-## TODO list
-- Add some tests
