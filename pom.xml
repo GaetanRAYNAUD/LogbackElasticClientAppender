@@ -4,7 +4,7 @@
 
   <groupId>fr.graynaud</groupId>
   <artifactId>logback-elastic-client-appender</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
   <packaging>jar</packaging>
 
   <name>Logback Elastic Client Appender</name>
@@ -43,14 +43,14 @@
   </distributionManagement>
 
   <properties>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
-    <maven.compiler.release>11</maven.compiler.release>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
+    <maven.compiler.release>21</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!-- Dependencies versions -->
     <logback.version>1.5.8</logback.version>
-    <elasticsearch.version>	8.15.2</elasticsearch.version>
+    <elasticsearch.version>8.15.3</elasticsearch.version>
     <jackson.version>2.18.0</jackson.version>
     <junit.version>5.11.2</junit.version>
 

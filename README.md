@@ -27,14 +27,14 @@ Maven:
 <dependency>
   <groupId>fr.graynaud</groupId>
   <artifactId>logback-elastic-client-appender</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
 </dependency>
 ```
 
 Gradle:
 
 ```
-implementation 'fr.graynaud:logback-elastic-client-appender:0.1.0'
+implementation 'fr.graynaud:logback-elastic-client-appender:1.0.2'
 ```
 
 Add the new appender to your Logback configuration
@@ -84,7 +84,7 @@ Add the new appender to your Logback configuration
 
 ## Requirements
 
-- Java 11 or greater
+- Java 21 or greater
 - Elasticsearch version 8 or greater
 
 ## Settings
